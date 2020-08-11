@@ -4,5 +4,11 @@
   "port":5432,
   "username":"postgres",
   "password":"docker",
-  "database":"buscaFarm"
+  "database":"buscaFarm",
+  "migrations": [
+    "./src/dtabase/migrations/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "./src/dtabase/migrations"
+  }
 }
