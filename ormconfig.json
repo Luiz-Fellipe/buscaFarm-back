@@ -5,10 +5,13 @@
   "username":"postgres",
   "password":"docker",
   "database":"buscaFarm",
+  "entities": [
+    "./src/models/*.ts"
+  ],
   "migrations": [
-    "./src/dtabase/migrations/*.ts"
+    "./src/database/migrations/*.ts"
   ],
   "cli": {
-    "migrationsDir": "./src/dtabase/migrations"
+    "migrationsDir": "./src/database/migrations"
   }
 }
