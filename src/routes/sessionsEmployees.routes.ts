@@ -10,14 +10,12 @@ sessionsEmployees.post('/', async (req, res) => {
 
     const authenticatiteEmployee = new AuthenticateEmployeeService();
 
-    const { user, token } = await authenticatiteEmployee.execute({
+    const { employee, token } = await authenticatiteEmployee.execute({
       email,
       password,
     });
 
-    delete user.password;
-
-    return res.json({ user, token });
+    return res.json({ employee, token });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
