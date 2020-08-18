@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import User from '../models/User';
+import Employee from '../models/Employee';
 import authConfig from '../config/auth';
 
 interface Request {
@@ -10,23 +11,34 @@ interface Request {
 }
 
 interface Response {
-  user: User;
+  employee: Employee;
   token: string;
 }
 
 class AuthenticateEmployeeService {
   public async execute({ email, password }: Request): Promise<Response> {
-    const employeesRepository = getRepository(User);
+    const userRepository = getRepository(User);
+    const employeesRepository = getRepository(Employee);
 
-    const employee = await employeesRepository.findOne({
+    const user = await userRepository.findOne({
       where: { email },
     });
 
-    if (!employee) {
+    if (!user) {
       throw new Error('Incorrect email/password combination');
     }
 
-    const passwordMatched = await compare(password, employee.password);
+    const { id } = user;
+    const employee = await employeesRepository.findOne({
+      where: { user_id: id },
+      relations: ['user', 'pharmacie', 'employee_position'],
+    });
+
+    if (!employee) {
+      throw new Error('User not found');
+    }
+
+    const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
       throw new Error('Incorrect email/password combination');
@@ -35,12 +47,12 @@ class AuthenticateEmployeeService {
     const { secret, expiresIn } = authConfig.jwt;
 
     const token = sign({}, secret, {
-      subject: employee.id,
+      subject: user.id,
       expiresIn,
     });
 
     return {
-      user: employee,
+      employee,
       token,
     };
   }
