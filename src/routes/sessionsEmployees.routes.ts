@@ -15,6 +15,8 @@ sessionsEmployees.post('/', async (req, res) => {
       password,
     });
 
+    delete employee.user.password;
+
     return res.json({ employee, token });
   } catch (error) {
     return res.status(400).json({ error: error.message });
