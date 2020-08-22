@@ -7,7 +7,6 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-
 import User from './User';
 import EmployeePosition from './EmployeePosition';
 import Pharmacie from './Pharmacie';
