@@ -16,21 +16,21 @@ class Employee {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ select: false })
   user_id: string;
 
   @OneToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column()
+  @Column({ select: false })
   employee_position_id: string;
 
   @OneToOne(() => EmployeePosition)
   @JoinColumn({ name: 'employee_position_id' })
   employee_position: EmployeePosition;
 
-  @Column()
+  @Column({ select: false })
   pharmacie_id: string;
 
   @OneToOne(() => Pharmacie)
