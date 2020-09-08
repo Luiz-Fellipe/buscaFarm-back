@@ -19,18 +19,14 @@ employeesPositionRouter.get('/', async (req, res) => {
 });
 
 employeesPositionRouter.post('/create', async (req, res) => {
-  try {
-    const { name } = req.body;
-    const createEmployeePosition = new CreateEmployeePositionService();
+  const { name } = req.body;
+  const createEmployeePosition = new CreateEmployeePositionService();
 
-    const employeePosition = await createEmployeePosition.execute({
-      name,
-    });
+  const employeePosition = await createEmployeePosition.execute({
+    name,
+  });
 
-    return res.json(employeePosition);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
+  return res.json(employeePosition);
 });
 
 export default employeesPositionRouter;

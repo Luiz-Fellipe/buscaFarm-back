@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
 import User from '../models/User';
+import AppError from '../errors/AppError';
 
 interface Request {
   user_id: string;
@@ -27,7 +28,7 @@ class UpdateUserService {
     });
 
     if (!user) {
-      throw new Error('This user is not registered in our database');
+      throw new AppError('This user is not registered in our database');
     }
 
     const userWithUpdatedEmail = await usersRepository.findOne({
@@ -35,11 +36,11 @@ class UpdateUserService {
     });
 
     if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
-      throw new Error('The email is already being used by another user');
+      throw new AppError('The email is already being used by another user');
     }
 
     if (password && !old_password) {
-      throw new Error(
+      throw new AppError(
         'You need to inform the old password to set a new password',
       );
     }

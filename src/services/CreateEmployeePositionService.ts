@@ -1,5 +1,6 @@
 import { getRepository } from 'typeorm';
 import EmployeePosition from '../models/EmployeePosition';
+import AppError from '../errors/AppError';
 
 interface Request {
   name: string;
@@ -16,7 +17,7 @@ class CreateEmployeePositionService {
     );
 
     if (checkemployeePositionExists) {
-      throw new Error('This position has already been registered');
+      throw new AppError('This position has already been registered');
     }
 
     const newEmployeePosition = employeePositionRepository.create({

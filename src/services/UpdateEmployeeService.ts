@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import Employee from '../models/Employee';
+import AppError from '../errors/AppError';
 
 interface Request {
   employee_id: string;
@@ -19,7 +20,7 @@ class UpdateEmployeeService {
     });
 
     if (!employee) {
-      throw new Error('This employee is not registered in our database');
+      throw new AppError('This employee is not registered in our database');
     }
 
     employee.employee_position_id = employee_position_id;

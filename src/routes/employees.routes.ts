@@ -27,72 +27,66 @@ employeesRouter.get('/', async (req, res) => {
 });
 
 employeesRouter.post('/create', async (req, res) => {
-  try {
-    const {
-      employee_position_id,
-      pharmacie_id,
-      name,
-      email,
-      password,
-      phone,
-    } = req.body;
+  const {
+    employee_position_id,
+    pharmacie_id,
+    name,
+    email,
+    password,
+    phone,
+  } = req.body;
 
-    const createUser = new CreateUserService();
+  const createUser = new CreateUserService();
 
-    const { id } = await createUser.execute({
-      name,
-      email,
-      password,
-      phone,
-    });
+  const { id } = await createUser.execute({
+    name,
+    email,
+    password,
+    phone,
+  });
 
-    const createEmployee = new CreateEmployeeService();
+  const createEmployee = new CreateEmployeeService();
 
-    await createEmployee.execute({
-      user_id: id,
-      employee_position_id,
-      pharmacie_id,
-    });
+  await createEmployee.execute({
+    user_id: id,
+    employee_position_id,
+    pharmacie_id,
+  });
 
-    return res.json({ success: 'ok' });
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
+  return res.json({ success: 'ok' });
 });
 
 employeesRouter.put('/edit', async (req, res) => {
-  try {
-    const {
-      employee_id,
-      employee_position_id,
-      name,
-      email,
-      password,
-      old_password,
-      phone,
-    } = req.body;
+  const {
+    employee_id,
+    employee_position_id,
+    name,
+    email,
+    password,
+    old_password,
+    phone,
+  } = req.body;
 
-    const updateEmployee = new UpdateEmployeeService();
-    const updateUser = new UpdateUserService();
+  const updateEmployee = new UpdateEmployeeService();
+  const updateUser = new UpdateUserService();
 
-    const { user_id } = await updateEmployee.execute({
-      employee_id,
-      employee_position_id,
-    });
+  const { user_id } = await updateEmployee.execute({
+    employee_id,
+    employee_position_id,
+  });
 
-    await updateUser.execute({
-      user_id,
-      name,
-      email,
-      password,
-      old_password,
-      phone,
-    });
+  await updateUser.execute({
+    user_id,
+    name,
+    email,
+    password,
+    old_password,
+    phone,
+  });
 
-    return res.json({ ok: true });
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
+  return res.json({ ok: true });
+
+  return res.status(400).json({ error: error.message });
 });
 
 employeesRouter.delete('/delete/:id', async (req, res) => {

@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import Employee from '../models/Employee';
+import AppError from '../errors/AppError';
 
 interface Request {
   user_id: string;
@@ -21,7 +22,7 @@ class CreateEmployeeService {
     });
 
     if (checkEmployeeExists) {
-      throw new Error('This employee is already registered in our database');
+      throw new AppError('This employee is already registered in our database');
     }
 
     const newEmployee = employeeRepository.create({

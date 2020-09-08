@@ -5,6 +5,8 @@ import authConfig from '@config/auth';
 import User from '../models/User';
 import Employee from '../models/Employee';
 
+import AppError from '../errors/AppError';
+
 interface Request {
   email: string;
   password: string;
@@ -25,7 +27,7 @@ class AuthenticateEmployeeService {
     });
 
     if (!user) {
-      throw new Error('Incorrect email/password combination');
+      throw new AppError('Incorrect email/password combination', 401);
     }
 
     const { id } = user;
@@ -35,13 +37,13 @@ class AuthenticateEmployeeService {
     });
 
     if (!employee) {
-      throw new Error('User not found');
+      throw new AppError('User not found');
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error('Incorrect email/password combination');
+      throw new AppError('Incorrect email/password combination', 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;

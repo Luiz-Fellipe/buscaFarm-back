@@ -1,4 +1,5 @@
 import { getRepository } from 'typeorm';
+import AppError from '../errors/AppError';
 
 import User from '../models/User';
 
@@ -13,7 +14,7 @@ class DeleteEmployeeService {
     const user = await userRepository.findOne(id);
 
     if (!id) {
-      throw new Error('This Employee does not exist');
+      throw new AppError('This Employee does not exist');
     }
 
     await userRepository.remove(user);

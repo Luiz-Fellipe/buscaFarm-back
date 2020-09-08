@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 import Pharmacie from '../models/Pharmacie';
+import AppError from '../errors/AppError';
 
 interface Request {
   company_name: string;
@@ -39,7 +40,7 @@ class CreateUserService {
     });
 
     if (checkPharmacieExists) {
-      throw new Error('Cnpj already registered in our database');
+      throw new AppError('Cnpj already registered in our database');
     }
 
     const newPharmacie = pharmacieRepository.create({
