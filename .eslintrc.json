@@ -25,6 +25,15 @@
     "rules": {
       "class-methods-use-this":"off",
       "camelcase": "off",
+      "@typescript-eslint/camelcase": "off",
+      "@typescript-eslint/ban-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "no-useless-constructor":"off",
+      // "@typescript-eslint/interface-name-prefix":[ "error", { "prefixWithI": "always" }],
+      "@typescript-eslint/no-unused-vars": ["error",{
+        "argsIgnorePattern": "_"
+      }],
+      "no-underscore-dangle": "off",
       "import/extensions": [
         "error",
         "ignorePackages",
