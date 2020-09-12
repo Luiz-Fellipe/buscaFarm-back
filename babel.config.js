@@ -6,9 +6,9 @@ module.exports = {
   plugins: [
     ['module-resolver', {
       alias: {
-        // "@module": "./src/modules",
+        "@module": "./src/modules",
         "@config": "./src/config",
-        // "@shared": "./src/shared",
+        "@shared": "./src/shared",
       }
     }],
     ["babel-plugin-root-import"],
