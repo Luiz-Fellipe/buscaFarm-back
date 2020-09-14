@@ -21,7 +21,7 @@ export default class EmployeesController {
       search,
     });
 
-    return res.json({ employees });
+    return res.json(employees);
   }
 
   public async show(req: Request, res: Response): Promise<Response> {
@@ -30,7 +30,7 @@ export default class EmployeesController {
 
     const employee = await employeesRepository.findById(id);
 
-    return res.json({ employee });
+    return res.json(employee);
   }
 
   public async update(req: Request, res: Response): Promise<Response> {

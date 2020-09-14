@@ -26,7 +26,7 @@ class Employee {
   @Column({ select: false })
   employee_position_id: string;
 
-  @OneToOne(() => EmployeePosition)
+  @OneToOne(() => EmployeePosition, { eager: true })
   @JoinColumn({ name: 'employee_position_id' })
   employee_position: EmployeePosition;
 

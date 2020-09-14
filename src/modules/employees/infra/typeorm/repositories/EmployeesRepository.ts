@@ -47,6 +47,7 @@ class EmployeesRepository implements IEmployeesRepository {
     const [result, total] = await this.ormRepository
       .createQueryBuilder('employees')
       .innerJoinAndSelect('employees.user', 'user')
+      .innerJoinAndSelect('employees.employee_position', 'employee_position')
       .where(`user.name ILIKE '%${search}%'`)
       .offset(pageStart)
       .limit(pageLength)

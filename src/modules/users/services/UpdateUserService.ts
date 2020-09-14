@@ -49,7 +49,7 @@ class UpdateUserService {
     if (password && old_password) {
       const passwordMatched = await compare(old_password, user.password);
       if (!passwordMatched) {
-        throw new Error('The old password does not match');
+        throw new AppError('The old password does not match');
       }
       user.password = await hash(password, 8);
     }
