@@ -17,7 +17,7 @@ export default class EmployeesPositionController {
       { pageStart, pageLength, search },
     );
 
-    return res.json({ employeesPosition });
+    return res.json(employeesPosition);
   }
 
   // public async show(req: Request, res: Response): Promise<Response> {
