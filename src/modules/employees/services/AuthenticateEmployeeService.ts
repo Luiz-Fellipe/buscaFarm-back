@@ -53,7 +53,7 @@ class AuthenticateEmployeeService {
 
     if (secret) {
       token = sign({}, secret, {
-        subject: `${employee.id},${employee.pharmacie_id}`,
+        subject: `${employee.id},${employee.pharmacie_id},${employee.user_id}`,
         expiresIn,
       });
     }
