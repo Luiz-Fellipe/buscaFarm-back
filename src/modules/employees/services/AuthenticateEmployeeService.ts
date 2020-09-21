@@ -50,9 +50,10 @@ class AuthenticateEmployeeService {
 
     const { secret, expiresIn } = authConfig.jwt;
     let token;
+
     if (secret) {
       token = sign({}, secret, {
-        subject: user.id,
+        subject: `${employee.id},${employee.pharmacie_id}`,
         expiresIn,
       });
     }
