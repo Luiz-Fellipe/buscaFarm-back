@@ -1,4 +1,5 @@
 export interface PaginationProps {
+  pharmacieId?: string;
   pageStart: number;
   pageLength: number;
   search: string;

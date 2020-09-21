@@ -12,10 +12,12 @@ import EmployeesRepository from '../../typeorm/repositories/EmployeesRepository'
 export default class EmployeesController {
   public async index(req: Request, res: Response): Promise<Response> {
     const { pageLength, pageStart, search } = req.query as any;
+    const { pharmacieId } = req.user as any;
 
     const employeesRepository = container.resolve(EmployeesRepository);
 
     const employees = await employeesRepository.findWithPagination({
+      pharmacieId,
       pageLength,
       pageStart,
       search,
