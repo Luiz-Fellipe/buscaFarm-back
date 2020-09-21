@@ -40,6 +40,7 @@ class EmployeesRepository implements IEmployeesRepository {
   }
 
   public async findWithPagination({
+    pharmacieId,
     pageStart,
     pageLength,
     search,
@@ -47,8 +48,11 @@ class EmployeesRepository implements IEmployeesRepository {
     const [result, total] = await this.ormRepository
       .createQueryBuilder('employees')
       .innerJoinAndSelect('employees.user', 'user')
+      .innerJoin('employees.pharmacie', 'pharmacie')
       .innerJoinAndSelect('employees.employee_position', 'employee_position')
-      .where(`user.name ILIKE '%${search}%'`)
+      .where(
+        `pharmacie.id = '${pharmacieId}' AND user.name ILIKE '%${search}%'`,
+      )
       .offset(pageStart)
       .limit(pageLength)
       .getManyAndCount();

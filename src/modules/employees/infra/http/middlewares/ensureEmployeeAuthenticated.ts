@@ -9,8 +9,15 @@ interface tokenPayload {
   sub: string;
 }
 
+interface headerProps extends Request {
+  user: {
+    id: string;
+    pharmacieId: string;
+  };
+}
+
 export default function ensureEmployeeAuthenticated(
-  req: Request,
+  req: headerProps,
   res: Response,
   next: NextFunction,
 ): void {
@@ -28,8 +35,12 @@ export default function ensureEmployeeAuthenticated(
 
     const { sub } = decoded as tokenPayload;
 
+    // ['id do funcionario', 'id da farmacia']
+    const [employeeId, pharmacieId] = sub.split(',');
+
     req.user = {
-      id: sub,
+      id: employeeId,
+      pharmacieId,
     };
 
     return next();
