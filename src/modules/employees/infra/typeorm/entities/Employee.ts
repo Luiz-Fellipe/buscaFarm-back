@@ -7,9 +7,11 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
+import uploadConfig from '@config/upload';
 import User from '@module/users/infra/typeorm/entities/User';
 import EmployeePosition from '@module/employeesPosition/infra/typeorm/entities/EmployeePosition';
 import Pharmacie from '@module/pharmacies/infra/typeorm/entities/Pharmacie';
+import { Expose } from 'class-transformer';
 
 @Entity('employees')
 class Employee {
