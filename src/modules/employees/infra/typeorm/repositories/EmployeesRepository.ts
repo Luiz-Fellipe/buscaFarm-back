@@ -34,8 +34,6 @@ class EmployeesRepository implements IEmployeesRepository {
   public async findById(id: string): Promise<Employee | undefined> {
     const employee = await this.ormRepository.findOne(id);
 
-    delete employee.user.password;
-
     return employee;
   }
 

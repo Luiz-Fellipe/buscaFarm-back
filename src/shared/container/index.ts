@@ -1,5 +1,7 @@
 import { container } from 'tsyringe';
 
+import './providers';
+
 import EmployeesRepository from '@module/employees/infra/typeorm/repositories/EmployeesRepository';
 import IEmployeesRepository from '@module/employees/repositories/IEmployeesRepository';
 

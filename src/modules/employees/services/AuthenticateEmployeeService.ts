@@ -46,8 +46,6 @@ class AuthenticateEmployeeService {
       throw new AppError('Incorrect email/password combination', 401);
     }
 
-    delete employee.user.password;
-
     const { secret, expiresIn } = authConfig.jwt;
     let token;
 

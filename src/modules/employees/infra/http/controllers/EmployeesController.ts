@@ -7,6 +7,7 @@ import UpdateUserService from '@module/users/services/UpdateUserService';
 import UpdateEmployeeService from '@module/employees/services/UpdateEmployeeService';
 import DeleteEmployeeService from '@module/employees/services/DeleteEmployeeService';
 
+import { classToClass } from 'class-transformer';
 import EmployeesRepository from '../../typeorm/repositories/EmployeesRepository';
 
 export default class EmployeesController {
@@ -23,7 +24,7 @@ export default class EmployeesController {
       search,
     });
 
-    return res.json(employees);
+    return res.json({ employee: classToClass(employees) });
   }
 
   public async show(req: Request, res: Response): Promise<Response> {
@@ -32,7 +33,7 @@ export default class EmployeesController {
 
     const employee = await employeesRepository.findById(id);
 
-    return res.json(employee);
+    return res.json({ employee: classToClass(employee) });
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
