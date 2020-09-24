@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-
+import { classToClass } from 'class-transformer';
 import AuthenticateEmployeeService from '@module/employees/services/AuthenticateEmployeeService';
 
 export default class SessionsController {
@@ -16,6 +16,6 @@ export default class SessionsController {
       password,
     });
 
-    return res.json({ employee, token });
+    return res.json({ employee: classToClass(employee), token });
   }
 }
