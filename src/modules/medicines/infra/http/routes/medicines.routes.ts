@@ -3,7 +3,6 @@ import uploadConfig from '@config/upload';
 import multer from 'multer';
 import ensureEmployeeAuthenticated from '@module/employees/infra/http/middlewares/ensureEmployeeAuthenticated';
 import MedicinesController from '../controllers/MedicinesController';
-import imageMedicineController from '../controllers/imageMedicineController';
 import ImageMedicineController from '../controllers/ImageMedicineController';
 
 const upload = multer(uploadConfig.multer);
