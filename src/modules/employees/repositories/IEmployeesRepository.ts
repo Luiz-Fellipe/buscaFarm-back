@@ -12,7 +12,7 @@ export default interface IEmployeesRepository {
   findById(id: string): Promise<Employee | undefined>;
   findWithPagination({
     pageStart,
-    pageLenght,
+    pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined>;
   save(employee: Employee): Promise<Employee>;

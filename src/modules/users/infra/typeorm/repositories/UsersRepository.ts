@@ -30,13 +30,13 @@ class UsersRepository implements IUsersRepository {
 
   public async findWithPagination({
     pageStart,
-    pageLenght,
+    pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined> {
     const [result, total] = await this.ormRepository.findAndCount({
       where: { name: Like(`%${search}%`) },
       take: pageStart,
-      skip: pageLenght,
+      skip: pageLength,
     });
 
     return { data: result, count: total } || undefined;
