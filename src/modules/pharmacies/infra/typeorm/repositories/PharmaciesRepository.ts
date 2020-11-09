@@ -52,7 +52,7 @@ class PharmaciesRepository implements IPharmaciesRepository {
         'pharmacies_medicines',
       )
       .leftJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
-      .where(`medicines.name ILIKE '%${search}%'`)
+      .where(`company_name ILIKE '%${search}%'`)
       .offset(pageStart)
       .limit(pageLength)
       .getManyAndCount();
@@ -104,6 +104,10 @@ class PharmaciesRepository implements IPharmaciesRepository {
 
   public async remove(pharmacie: Pharmacie): Promise<void> {
     await this.ormRepository.remove(pharmacie);
+  }
+
+  public async save(pharmacie: Pharmacie): Promise<Pharmacie> {
+    return this.ormRepository.save(pharmacie);
   }
 }
 

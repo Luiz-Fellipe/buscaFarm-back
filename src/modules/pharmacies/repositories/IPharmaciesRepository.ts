@@ -15,4 +15,5 @@ export default interface IPharmaciesRepository {
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined>;
   remove(pharmacie: Pharmacie): Promise<void>;
+  save(pharmacie: Pharmacie): Promise<Pharmacie>;
 }
