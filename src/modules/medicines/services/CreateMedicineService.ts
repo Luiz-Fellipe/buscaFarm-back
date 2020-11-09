@@ -19,14 +19,12 @@ class CreateMedicineService {
     amount,
     manufacturer,
     price,
-    pharmacie_id,
   }: ICreateMedicineDTO): Promise<Medicine> {
     const newMedicine = this.medicinesRepository.create({
       name,
       amount,
       manufacturer,
       price,
-      pharmacie_id,
     });
 
     return newMedicine;

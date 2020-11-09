@@ -7,6 +7,7 @@ import employeesPosition from '@module/employeesPosition/infra/http/routes/emplo
 import pharmacies from '@module/pharmacies/infra/http/routes/pharmacies.routes';
 import employees from '@module/employees/infra/http/routes/employees.routes';
 import medicines from '@module/medicines/infra/http/routes/medicines.routes';
+import pharmaciesMedicines from '@module/pharmacies/infra/http/routes/pharmaciesMedicines.routes';
 
 const routes = Router();
 
@@ -16,5 +17,6 @@ routes.use('/employees/position', employeesPosition);
 routes.use('/employees', employees);
 routes.use('/pharmacies', pharmacies);
 routes.use('/medicines', medicines);
+routes.use('/pharmacies-medicines', pharmaciesMedicines);
 
 export default routes;

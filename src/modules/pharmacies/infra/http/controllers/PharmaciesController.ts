@@ -1,30 +1,32 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreatePharmacieService from '@module/pharmacies/services/CreatePharmacieService';
+import DeletePharmacieService from '@module/pharmacies/services/DeletePharmacieService';
+import PharmaciesRepository from '../../typeorm/repositories/PharmaciesRepository';
 
 export default class PharmaciesController {
-  // public async index(req: Request, res: Response): Promise<Response> {
-  //   // const { pageLenght, pageStart, search } = req.params;
+  public async index(req: Request, res: Response): Promise<Response> {
+    const { pageLength, pageStart, search } = req.query as any;
 
-  //   const employeesRepository = container.resolve(EmployeesRepository);
+    const pharmaciesRepository = container.resolve(PharmaciesRepository);
 
-  //   const employees = await employeesRepository.findWithPagination({
-  //     pageLenght: 30,
-  //     pageStart: 0,
-  //     search: '',
-  //   });
+    const pharmacies = await pharmaciesRepository.findWithPagination({
+      pageLength,
+      pageStart,
+      search,
+    });
 
-  //   return res.json({ employees });
-  // }
+    return res.json({ pharmacies });
+  }
 
-  // public async show(req: Request, res: Response): Promise<Response> {
-  //   const { id } = req.params;
-  //   const employeesRepository = container.resolve(EmployeesRepository);
+  public async show(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const pharmaciesRepository = container.resolve(PharmaciesRepository);
 
-  //   const employee = await employeesRepository.findById(id);
+    const pharmacie = await pharmaciesRepository.findById(id);
 
-  //   return res.json({ employee });
-  // }
+    return res.json({ pharmacie });
+  }
 
   // public async update(req: Request, res: Response): Promise<Response> {
   //   const {
@@ -58,15 +60,15 @@ export default class PharmaciesController {
   //   return res.json({ ok: true });
   // }
 
-  // public async destroy(req: Request, res: Response): Promise<Response> {
-  //   const { id } = req.params;
+  public async destroy(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
 
-  //   const deleteEmployee = container.resolve(DeleteEmployeeService);
+    const deletePharmacie = container.resolve(DeletePharmacieService);
 
-  //   await deleteEmployee.execute({ id });
+    await deletePharmacie.execute({ id });
 
-  //   return res.status(204).send();
-  // }
+    return res.status(204).send();
+  }
 
   public async create(req: Request, res: Response): Promise<Response> {
     const {
@@ -82,6 +84,7 @@ export default class PharmaciesController {
       latitude,
       longitude,
       phone,
+      medicines,
     } = req.body;
 
     const createPharmacie = container.resolve(CreatePharmacieService);
@@ -99,6 +102,7 @@ export default class PharmaciesController {
       latitude,
       longitude,
       phone,
+      medicines,
     });
 
     return res.json(pharmacie);

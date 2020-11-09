@@ -1,13 +1,18 @@
-import { getRepository, Repository } from 'typeorm';
-import IEmployeesPositionRepository from '@module/employeesPosition/repositories/IEmployeesPositionRepository';
+import { getRepository, In, Repository } from 'typeorm';
+import AppError from '@shared/errors/AppError';
 import ICreateMedicineDTO from '@module/medicines/dtos/ICreateMedicineDTO';
 import {
   PaginationProps,
   ResponsePaginationProps,
 } from '@shared/dtos/IPaginationProps';
+import IMedicinesRepository from '@module/medicines/repositories/IMedicinesRepository';
 import Medicine from '../entities/Medicine';
 
-class MedicinesRepository implements IEmployeesPositionRepository {
+interface IFindMedicines {
+  id: string;
+}
+
+class MedicinesRepository implements IMedicinesRepository {
   private ormRepository: Repository<Medicine>;
 
   constructor() {
@@ -28,33 +33,49 @@ class MedicinesRepository implements IEmployeesPositionRepository {
     return medicine;
   }
 
+  public async findAllById(medicines: IFindMedicines[]): Promise<Medicine[]> {
+    const idList = medicines.map(medicine => medicine.id);
+    const orderList = await this.ormRepository.find({ id: In(idList) });
+
+    if (idList.length !== orderList.length) {
+      throw new AppError('Missing Medicine');
+    }
+
+    return orderList;
+  }
+
   public async findWithPagination({
     pageStart,
     pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined> {
-    const [result, total] = await this.ormRepository.findAndCount({
-      where: `name ILIKE '%${search}%'`,
-      skip: pageStart,
-      take: pageLength,
-    });
+    const [result, total] = await this.ormRepository
+      .createQueryBuilder('medicines')
+      .innerJoinAndSelect(
+        'medicines.pharmacies_medicines',
+        'pharmacies_medicines',
+      )
+      .innerJoinAndSelect('pharmacies_medicines.pharmacie', 'pharmacies')
+      .where(`name ILIKE '%${search}%'`)
+      .offset(pageStart)
+      .limit(pageLength)
+      .getManyAndCount();
+    // const [result, total] = await this.ormRepository.findAndCount({
+    //   where: `name ILIKE '%${search}%'`,
+    //   skip: pageStart,
+    //   take: pageLength,
+    // });
 
     return { data: result, count: total } || undefined;
   }
 
   public async create({
     name,
-    amount,
     manufacturer,
-    pharmacie_id,
-    price,
   }: ICreateMedicineDTO): Promise<Medicine> {
     const medicine = this.ormRepository.create({
-      amount,
       manufacturer,
       name,
-      price,
-      pharmacie_id,
     });
 
     await this.ormRepository.save(medicine);

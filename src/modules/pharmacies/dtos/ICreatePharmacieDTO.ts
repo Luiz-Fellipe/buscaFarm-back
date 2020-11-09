@@ -1,3 +1,9 @@
+interface IMedicine {
+  medicine_id: string;
+  price: number;
+  amount: number;
+}
+
 export default interface ICreatePharmacieDTO {
   company_name: string;
   cnpj: string;
@@ -11,4 +17,5 @@ export default interface ICreatePharmacieDTO {
   latitude: number;
   longitude: number;
   phone?: string;
+  medicines: IMedicine[];
 }
