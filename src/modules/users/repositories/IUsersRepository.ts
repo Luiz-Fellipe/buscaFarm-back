@@ -11,7 +11,7 @@ export default interface IUsersRepository {
   findByEmail(email: string): Promise<User | undefined>;
   findWithPagination({
     pageStart,
-    pageLenght,
+    pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined>;
 
