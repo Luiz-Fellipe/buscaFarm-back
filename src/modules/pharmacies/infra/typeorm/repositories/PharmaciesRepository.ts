@@ -1,4 +1,5 @@
 import { getRepository, Repository, Like } from 'typeorm';
+
 import IPharmaciesRepository from '@module/pharmacies/repositories/IPharmaciesRepository';
 import ICreatePharmacieDTO from '@module/pharmacies/dtos/ICreatePharmacieDTO';
 import {
@@ -6,6 +7,17 @@ import {
   ResponsePaginationProps,
 } from '@shared/dtos/IPaginationProps';
 import Pharmacie from '../entities/Pharmacie';
+
+interface IMedicine {
+  id: string;
+  quantity: number;
+  amount: number;
+}
+
+interface IRequest {
+  customer_id: string;
+  products: IMedicine[];
+}
 
 class PharmaciesRepository implements IPharmaciesRepository {
   private ormRepository: Repository<Pharmacie>;
@@ -30,14 +42,26 @@ class PharmaciesRepository implements IPharmaciesRepository {
 
   public async findWithPagination({
     pageStart,
-    pageLenght,
+    pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined> {
-    const [result, total] = await this.ormRepository.findAndCount({
-      where: { name: Like(`%${search}%`) },
-      take: pageStart,
-      skip: pageLenght,
-    });
+    const [result, total] = await this.ormRepository
+      .createQueryBuilder('pharmacies')
+      .innerJoinAndSelect(
+        'pharmacies.pharmacies_medicines',
+        'pharmacies_medicines',
+      )
+      .innerJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
+      .where(`medicines.name ILIKE '%${search}%'`)
+      .offset(pageStart)
+      .limit(pageLength)
+      .getManyAndCount();
+
+    // const [result, total] = await this.ormRepository.findAndCount({
+    //   where: `company_name ILIKE '%${search}%'`,
+    //   skip: pageStart,
+    //   take: pageLength,
+    // });
 
     return { data: result, count: total } || undefined;
   }
@@ -55,6 +79,7 @@ class PharmaciesRepository implements IPharmaciesRepository {
     latitude,
     longitude,
     phone,
+    medicines,
   }: ICreatePharmacieDTO): Promise<Pharmacie> {
     const pharmacie = this.ormRepository.create({
       company_name,
@@ -69,11 +94,16 @@ class PharmaciesRepository implements IPharmaciesRepository {
       latitude,
       longitude,
       phone,
+      pharmacies_medicines: medicines,
     });
 
     await this.ormRepository.save(pharmacie);
 
     return pharmacie;
+  }
+
+  public async remove(pharmacie: Pharmacie): Promise<void> {
+    await this.ormRepository.remove(pharmacie);
   }
 }
 

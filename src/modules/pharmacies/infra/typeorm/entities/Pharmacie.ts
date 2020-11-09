@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import PharmaciesMedicines from './PharmaciesMedicines';
 
 @Entity('pharmacies')
 class Pharmacie {
@@ -46,6 +48,13 @@ class Pharmacie {
 
   @Column()
   phone?: string;
+
+  @OneToMany(
+    () => PharmaciesMedicines,
+    pharmacies_medicines => pharmacies_medicines.pharmacie,
+    { cascade: true, eager: true },
+  )
+  pharmacies_medicines: PharmaciesMedicines[];
 
   @CreateDateColumn()
   created_at: Date;

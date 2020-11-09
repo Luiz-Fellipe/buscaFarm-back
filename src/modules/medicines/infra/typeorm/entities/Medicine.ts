@@ -4,13 +4,12 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import uploadConfig from '@config/upload';
 
-import Pharmacie from '@module/pharmacies/infra/typeorm/entities/Pharmacie';
-import { Exclude, Expose } from 'class-transformer';
+import { Expose } from 'class-transformer';
+import PharmaciesMedicines from '@module/pharmacies/infra/typeorm/entities/PharmaciesMedicines';
 
 @Entity('medicines')
 class Medicine {
@@ -26,19 +25,26 @@ class Medicine {
   @Column()
   manufacturer: string;
 
-  @Column()
-  price: Number;
+  // @Column()
+  // price: Number;
 
-  @Column()
-  amount: Number;
+  // @Column()
+  // amount: Number;
 
-  @Column({ select: false })
-  @Exclude()
-  pharmacie_id: string;
+  // @Column({ select: false })
+  // @Exclude()
+  // pharmacie_id: string;
 
-  @OneToOne(() => Pharmacie, { eager: true })
-  @JoinColumn({ name: 'pharmacie_id' })
-  pharmacie: Pharmacie;
+  // @OneToOne(() => Pharmacie, { eager: true })
+  // @JoinColumn({ name: 'pharmacie_id' })
+  // pharmacie: Pharmacie;
+
+  @OneToMany(
+    () => PharmaciesMedicines,
+    pharmacies_medicines => pharmacies_medicines.medicine,
+    { cascade: true, eager: true },
+  )
+  pharmacies_medicines: PharmaciesMedicines[];
 
   @CreateDateColumn()
   created_at: Date;
