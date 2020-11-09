@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import CreatePharmacieService from '@module/pharmacies/services/CreatePharmacieService';
+
 import { classToClass } from 'class-transformer';
 import PharmaciesMedicinesRepository from '../../typeorm/repositories/PharmaciesMedicinesRepository';
 

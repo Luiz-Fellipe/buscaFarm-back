@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreatePharmacieService from '@module/pharmacies/services/CreatePharmacieService';
 import DeletePharmacieService from '@module/pharmacies/services/DeletePharmacieService';
+import { classToClass } from 'class-transformer';
 import PharmaciesRepository from '../../typeorm/repositories/PharmaciesRepository';
 
 export default class PharmaciesController {
@@ -16,7 +17,7 @@ export default class PharmaciesController {
       search,
     });
 
-    return res.json({ pharmacies });
+    return res.json(classToClass(pharmacies));
   }
 
   public async show(req: Request, res: Response): Promise<Response> {
