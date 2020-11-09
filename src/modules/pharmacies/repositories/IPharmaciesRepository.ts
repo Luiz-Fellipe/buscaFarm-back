@@ -11,7 +11,8 @@ export default interface IPharmaciesRepository {
   findById(id: string): Promise<Pharmacie | undefined>;
   findWithPagination({
     pageStart,
-    pageLenght,
+    pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined>;
+  remove(pharmacie: Pharmacie): Promise<void>;
 }

@@ -59,7 +59,6 @@ export default class MedicinesController {
 
   public async create(req: Request, res: Response): Promise<Response> {
     const { name, amount, manufacturer, price } = req.body;
-    const { pharmacieId } = req.user as any;
 
     const createMedicine = container.resolve(CreateMedicineService);
 
@@ -68,7 +67,6 @@ export default class MedicinesController {
       amount,
       manufacturer,
       price,
-      pharmacie_id: pharmacieId,
     });
 
     return res.json(medicine);

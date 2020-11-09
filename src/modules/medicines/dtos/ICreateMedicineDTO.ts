@@ -3,5 +3,4 @@ export default interface ICreateMedicineDTO {
   manufacturer: string;
   price: Number;
   amount: Number;
-  pharmacie_id: string;
 }
