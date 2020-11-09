@@ -47,11 +47,11 @@ class PharmaciesRepository implements IPharmaciesRepository {
   }: PaginationProps): Promise<ResponsePaginationProps | undefined> {
     const [result, total] = await this.ormRepository
       .createQueryBuilder('pharmacies')
-      .innerJoinAndSelect(
+      .leftJoinAndSelect(
         'pharmacies.pharmacies_medicines',
         'pharmacies_medicines',
       )
-      .innerJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
+      .leftJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
       .where(`medicines.name ILIKE '%${search}%'`)
       .offset(pageStart)
       .limit(pageLength)
