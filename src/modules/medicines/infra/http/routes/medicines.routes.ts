@@ -12,9 +12,10 @@ const medicinesRouter = Router();
 const medicinesController = new MedicinesController();
 const imageMedicineController = new ImageMedicineController();
 
+medicinesRouter.get('/', medicinesController.index);
+
 medicinesRouter.use(ensureEmployeeAuthenticated);
 
-medicinesRouter.get('/', medicinesController.index);
 medicinesRouter.get('/:id', medicinesController.show);
 medicinesRouter.post('/create', medicinesController.create);
 medicinesRouter.put('/edit', medicinesController.update);
