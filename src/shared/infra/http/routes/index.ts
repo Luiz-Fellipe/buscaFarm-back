@@ -8,11 +8,13 @@ import pharmacies from '@module/pharmacies/infra/http/routes/pharmacies.routes';
 import employees from '@module/employees/infra/http/routes/employees.routes';
 import medicines from '@module/medicines/infra/http/routes/medicines.routes';
 import pharmaciesMedicines from '@module/pharmacies/infra/http/routes/pharmaciesMedicines.routes';
+import sessionsUsers from '@module/users/infra/http/routes/sessionsUsers.routes';
 
 const routes = Router();
 
 routes.use('/users', usersRouter);
 routes.use('/sessions/employees', sessionsEmployees);
+routes.use('/sessions/users', sessionsUsers);
 routes.use('/employees/position', employeesPosition);
 routes.use('/employees', employees);
 routes.use('/pharmacies', pharmacies);
