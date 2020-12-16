@@ -10,6 +10,7 @@ import uploadConfig from '@config/upload';
 
 import { Expose } from 'class-transformer';
 import PharmaciesMedicines from '@module/pharmacies/infra/typeorm/entities/PharmaciesMedicines';
+import BudgetsMedicines from '@module/budgets/infra/typeorm/entities/BudgetsMedicines';
 
 @Entity('medicines')
 class Medicine {
@@ -24,6 +25,13 @@ class Medicine {
 
   @Column()
   manufacturer: string;
+
+  @OneToMany(
+    () => BudgetsMedicines,
+    budgets_medicines => budgets_medicines.medicine,
+    { cascade: true, eager: true },
+  )
+  budgets_medicines: BudgetsMedicines[];
 
   // @Column()
   // price: Number;
