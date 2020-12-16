@@ -35,8 +35,8 @@ class MedicinesRepository implements IMedicinesRepository {
 
   public async findAllById(medicines: IFindMedicines[]): Promise<Medicine[]> {
     const idList = medicines.map(medicine => medicine.id);
-    const orderList = await this.ormRepository.find({ id: In(idList) });
 
+    const orderList = await this.ormRepository.find({ id: In(idList) });
     if (idList.length !== orderList.length) {
       throw new AppError('Missing Medicine');
     }
