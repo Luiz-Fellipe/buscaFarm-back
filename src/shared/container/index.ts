@@ -17,6 +17,9 @@ import UsersRepository from '@module/users/infra/typeorm/repositories/UsersRepos
 import MedicinesRepository from '@module/medicines/infra/typeorm/repositories/MedicinesRepository';
 import IMedicinesRepository from '@module/medicines/repositories/IMedicinesRepository';
 
+import BudgetsRepository from '@module/budgets/infra/typeorm/repositories/BudgetsRepository';
+import IBudgetsRepository from '@module/budgets/repositories/IBudgetsRepository';
+
 container.registerSingleton<IEmployeesRepository>(
   'EmployeesRepository',
   EmployeesRepository,
@@ -30,6 +33,11 @@ container.registerSingleton<IEmployeesPositionRepository>(
 container.registerSingleton<IPharmacieRepository>(
   'PharmacieRepository',
   PharmacieRepository,
+);
+
+container.registerSingleton<IBudgetsRepository>(
+  'BudgetRepository',
+  BudgetsRepository,
 );
 
 container.registerSingleton<IUsersRepository>(
