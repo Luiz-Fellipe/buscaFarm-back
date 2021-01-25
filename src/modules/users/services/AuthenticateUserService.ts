@@ -16,7 +16,7 @@ interface IResponse {
   token?: string;
 }
 @injectable()
-class AuthenticateEmployeeService {
+class AuthenticateUserService {
   constructor(
     @inject('UsersRepository')
     private userRepository: IUsersRepository,
@@ -52,4 +52,4 @@ class AuthenticateEmployeeService {
   }
 }
 
-export default AuthenticateEmployeeService;
+export default AuthenticateUserService;
