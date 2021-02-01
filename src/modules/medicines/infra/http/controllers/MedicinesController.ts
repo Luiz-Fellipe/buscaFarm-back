@@ -38,9 +38,9 @@ export default class MedicinesController {
 
     updateMedicine.execute({
       id,
-      name,
+      name: name.toLowerCase(),
       amount,
-      manufacturer,
+      manufacturer: manufacturer.toLowerCase(),
       price,
     });
 
@@ -63,9 +63,9 @@ export default class MedicinesController {
     const createMedicine = container.resolve(CreateMedicineService);
 
     const medicine = await createMedicine.execute({
-      name,
+      name: name.toLowerCase(),
       amount,
-      manufacturer,
+      manufacturer: manufacturer.toLowerCase(),
       price,
     });
 
