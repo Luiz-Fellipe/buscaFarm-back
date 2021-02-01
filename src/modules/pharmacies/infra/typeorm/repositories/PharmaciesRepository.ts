@@ -6,6 +6,7 @@ import {
   PaginationProps,
   ResponsePaginationProps,
 } from '@shared/dtos/IPaginationProps';
+import IUpdatePharmacieMedicineDTO from '@module/pharmacies/dtos/IUpdatePharmacieMedicineDTO';
 import Pharmacie from '../entities/Pharmacie';
 
 interface IMedicine {
@@ -100,6 +101,15 @@ class PharmaciesRepository implements IPharmaciesRepository {
     await this.ormRepository.save(pharmacie);
 
     return pharmacie;
+  }
+
+  public async updateMedicines({
+    medicines,
+  }: IUpdatePharmacieMedicineDTO): Promise<Pharmacie> {
+    return this.ormRepository.save({
+      id: pharmacie.id,
+      pharmacies_medicines: medicines,
+    });
   }
 
   public async remove(pharmacie: Pharmacie): Promise<void> {

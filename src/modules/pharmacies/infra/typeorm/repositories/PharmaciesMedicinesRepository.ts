@@ -1,12 +1,13 @@
-import { getRepository, Repository, Like } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import IPharmaciesMedicinesRepository from '@module/pharmacies/repositories/IPharmaciesMedicinesRepository';
-import ICreatePharmacieDTO from '@module/pharmacies/dtos/ICreatePharmacieDTO';
+
 import {
   PaginationProps,
   ResponsePaginationProps,
 } from '@shared/dtos/IPaginationProps';
-import Pharmacie from '../entities/Pharmacie';
+import ICreatePharmacieMedicineDTO from '@module/budgets/dtos/ICreatePharmacieMedicineDTO';
+
 import PharmaciesMedicines from '../entities/PharmaciesMedicines';
 
 interface IMedicine {
@@ -41,12 +42,27 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
   //   return pharmacie;
   // }
 
+  public async findByMedicine(
+    medicine_id: string,
+    pharmacie_id: string,
+  ): Promise<PharmaciesMedicines | undefined> {
+    const result = await this.ormRepository
+      .createQueryBuilder('pharmacies_medicines')
+      .innerJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
+      .innerJoinAndSelect('pharmacies_medicines.pharmacie', 'pharmacies')
+      .where(
+        `medicines.id ='${medicine_id}' AND pharmacies.id = '${pharmacie_id}'`,
+      )
+      .getOne();
+
+    return result;
+  }
+
   public async findWithPagination({
     pageStart,
     pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined> {
-    console.log('veio aqui');
     const [result, total] = await this.ormRepository
       .createQueryBuilder('pharmacies_medicines')
       .innerJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
@@ -60,41 +76,27 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
     return { data: result, count: total } || undefined;
   }
 
-  // public async create({
-  //   company_name,
-  //   cnpj,
-  //   city,
-  //   uf,
-  //   neighborhood,
-  //   street,
-  //   adress_number,
-  //   zip_code,
-  //   complement,
-  //   latitude,
-  //   longitude,
-  //   phone,
-  //   medicines,
-  // }: ICreatePharmacieDTO): Promise<Pharmacie> {
-  //   const pharmacie = this.ormRepository.create({
-  //     company_name,
-  //     cnpj,
-  //     city,
-  //     uf,
-  //     neighborhood,
-  //     street,
-  //     adress_number,
-  //     zip_code,
-  //     complement,
-  //     latitude,
-  //     longitude,
-  //     phone,
-  //     pharmacies_medicines: medicines,
-  //   });
+  public async create({
+    pharmacie_id,
+    medicine_id,
+    amount,
+    price,
+  }: ICreatePharmacieMedicineDTO): Promise<void> {
+    const pharmacieMedicine = this.ormRepository.create({
+      pharmacie_id,
+      medicine_id,
+      amount,
+      price,
+    });
 
-  //   await this.ormRepository.save(pharmacie);
+    await this.ormRepository.save(pharmacieMedicine);
+  }
 
-  //   return pharmacie;
-  // }
+  public async save(
+    pharmacieMedicine: PharmaciesMedicines,
+  ): Promise<PharmaciesMedicines> {
+    return this.ormRepository.save(pharmacieMedicine);
+  }
 }
 
 export default PharmaciesMedicinesRepository;
