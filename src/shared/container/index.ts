@@ -11,6 +11,9 @@ import EmployeesPositionRepository from '@module/employeesPosition/infra/typeorm
 import IPharmacieRepository from '@module/pharmacies/repositories/IPharmaciesRepository';
 import PharmacieRepository from '@module/pharmacies/infra/typeorm/repositories/PharmaciesRepository';
 
+import IPharmaciesMedicinesRepository from '@module/pharmacies/repositories/IPharmaciesMedicinesRepository';
+import PharmaciesMedicinesRepository from '@module/pharmacies/infra/typeorm/repositories/PharmaciesMedicinesRepository';
+
 import IUsersRepository from '@module/users/repositories/IUsersRepository';
 import UsersRepository from '@module/users/infra/typeorm/repositories/UsersRepository';
 
@@ -33,6 +36,11 @@ container.registerSingleton<IEmployeesPositionRepository>(
 container.registerSingleton<IPharmacieRepository>(
   'PharmacieRepository',
   PharmacieRepository,
+);
+
+container.registerSingleton<IPharmaciesMedicinesRepository>(
+  'PharmaciesMedicinesRepository',
+  PharmaciesMedicinesRepository,
 );
 
 container.registerSingleton<IBudgetsRepository>(

@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import CreatePharmacieService from '@module/pharmacies/services/CreatePharmacieService';
 import DeletePharmacieService from '@module/pharmacies/services/DeletePharmacieService';
 import { classToClass } from 'class-transformer';
+import UpdatePharmacieService from '@module/pharmacies/services/UpdatePharmacieService';
 import PharmaciesRepository from '../../typeorm/repositories/PharmaciesRepository';
 
 export default class PharmaciesController {
@@ -29,37 +30,44 @@ export default class PharmaciesController {
     return res.json({ pharmacie });
   }
 
-  // public async update(req: Request, res: Response): Promise<Response> {
-  //   const {
-  //     employee_id,
-  //     employee_position_id,
-  //     name,
-  //     email,
-  //     password,
-  //     old_password,
-  //     phone,
-  //   } = req.body;
+  public async update(req: Request, res: Response): Promise<Response> {
+    const {
+      company_name,
+      cnpj,
+      city,
+      uf,
+      neighborhood,
+      street,
+      adress_number,
+      zip_code,
+      complement,
+      latitude,
+      longitude,
+      phone,
+    } = req.body;
 
-  //   const updateEmployee = container.resolve(UpdateEmployeeService);
+    const { pharmacieId } = req.user as any;
 
-  //   const updateUser = container.resolve(UpdateUserService);
+    const updatePharmacie = container.resolve(UpdatePharmacieService);
 
-  //   const { user_id } = await updateEmployee.execute({
-  //     employee_id,
-  //     employee_position_id,
-  //   });
+    updatePharmacie.execute({
+      pharmacieId,
+      company_name,
+      cnpj,
+      city,
+      uf,
+      neighborhood,
+      street,
+      adress_number,
+      zip_code,
+      complement,
+      latitude,
+      longitude,
+      phone,
+    });
 
-  //   await updateUser.execute({
-  //     user_id,
-  //     name,
-  //     email,
-  //     password,
-  //     old_password,
-  //     phone,
-  //   });
-
-  //   return res.json({ ok: true });
-  // }
+    return res.status(204).send();
+  }
 
   public async destroy(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;

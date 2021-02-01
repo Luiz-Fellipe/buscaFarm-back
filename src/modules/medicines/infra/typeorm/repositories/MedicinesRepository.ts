@@ -5,7 +5,9 @@ import {
   PaginationProps,
   ResponsePaginationProps,
 } from '@shared/dtos/IPaginationProps';
-import IMedicinesRepository from '@module/medicines/repositories/IMedicinesRepository';
+import IMedicinesRepository, {
+  IFindMedicinesByName,
+} from '@module/medicines/repositories/IMedicinesRepository';
 import Medicine from '../entities/Medicine';
 
 interface IFindMedicines {
@@ -38,6 +40,23 @@ class MedicinesRepository implements IMedicinesRepository {
 
     const orderList = await this.ormRepository.find({ id: In(idList) });
     if (idList.length !== orderList.length) {
+      throw new AppError('Missing Medicine');
+    }
+
+    return orderList;
+  }
+
+  public async findAllByName(
+    medicines: IFindMedicinesByName[],
+  ): Promise<Medicine[]> {
+    const nameList = medicines.map(medicine => medicine.name);
+
+    const orderList = await this.ormRepository
+      .createQueryBuilder('medicines')
+      .where('medicines.name IN (:...names)', { names: nameList })
+      .getMany();
+
+    if (nameList.length !== orderList.length) {
       throw new AppError('Missing Medicine');
     }
 
