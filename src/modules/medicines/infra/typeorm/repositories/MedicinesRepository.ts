@@ -56,9 +56,9 @@ class MedicinesRepository implements IMedicinesRepository {
       .where('medicines.name IN (:...names)', { names: nameList })
       .getMany();
 
-    if (nameList.length !== orderList.length) {
-      throw new AppError('Missing Medicine');
-    }
+    // if (nameList.length !== orderList.length) {
+    //   throw new AppError('Missing Medicine');
+    // }
 
     return orderList;
   }
