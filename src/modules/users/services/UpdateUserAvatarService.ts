@@ -3,6 +3,7 @@ import AppError from '@shared/errors/AppError';
 
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
 interface IRequest {
   user_id: string;
@@ -18,7 +19,7 @@ class UpdateUserAvatarService {
     private storageProvider: IStorageProvider,
   ) {}
 
-  public async execute({ user_id, avatarFileName }: IRequest): Promise<String> {
+  public async execute({ user_id, avatarFileName }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
@@ -31,9 +32,9 @@ class UpdateUserAvatarService {
     const filename = await this.storageProvider.saveFile(avatarFileName);
 
     user.avatar = filename;
-    await this.usersRepository.save(user);
+    const newUser = await this.usersRepository.save(user);
 
-    return filename;
+    return newUser;
   }
 }
 
