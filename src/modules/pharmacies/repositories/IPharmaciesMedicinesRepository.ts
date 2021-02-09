@@ -17,5 +17,12 @@ export default interface IPharmaciesMedicinesRepository {
     pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined>;
+
+  findMedicinesFromThePharmacyWithPagination({
+    pageStart,
+    pageLength,
+    search,
+  }: PaginationProps): Promise<ResponsePaginationProps | undefined>;
+
   save(pharmacieMedicine: PharmaciesMedicines): Promise<PharmaciesMedicines>;
 }

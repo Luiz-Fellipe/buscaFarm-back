@@ -76,6 +76,24 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
     return { data: result, count: total } || undefined;
   }
 
+  public async findMedicinesFromThePharmacyWithPagination({
+    pharmacieId,
+    pageStart,
+    pageLength,
+    search,
+  }: PaginationProps): Promise<ResponsePaginationProps | undefined> {
+    const [result, total] = await this.ormRepository
+      .createQueryBuilder('pharmacies_medicines')
+      .innerJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
+      .where(`pharmacies_medicines.pharmacie_id = '${pharmacieId}'`)
+      .andWhere(`medicines.name ILIKE '%${search}%'`)
+      .offset(pageStart)
+      .limit(pageLength)
+      .getManyAndCount();
+
+    return { data: result, count: total } || undefined;
+  }
+
   public async create({
     pharmacie_id,
     medicine_id,
@@ -98,5 +116,5 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
     return this.ormRepository.save(pharmacieMedicine);
   }
 }
-
+//
 export default PharmaciesMedicinesRepository;

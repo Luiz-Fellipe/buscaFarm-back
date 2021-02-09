@@ -6,11 +6,13 @@ import multer from 'multer';
 import PharmaciesController from '../controllers/PharmaciesController';
 import PharmaciesAvatarController from '../controllers/PharmaciesAvatarController';
 import PharmaciesUploadCsvMedicineController from '../controllers/PharmaciesUploadCsvMedicineController';
+import CurrentPharmacieMedicinesController from '../controllers/CurrentPharmacieMedicinesController';
 
 const pharmaciesRouter = Router();
 const pharmaciesController = new PharmaciesController();
 const pharmaciesAvatarController = new PharmaciesAvatarController();
 const pharmaciesUploadCsvMedicineController = new PharmaciesUploadCsvMedicineController();
+const pharmacieMedicinesController = new CurrentPharmacieMedicinesController();
 
 const upload = multer(uploadConfig.multer);
 pharmaciesRouter.use(ensureEmployeeAuthenticated);
@@ -19,6 +21,7 @@ pharmaciesRouter.post('/create', pharmaciesController.create);
 pharmaciesRouter.get('/', pharmaciesController.index);
 
 pharmaciesRouter.put('/edit', pharmaciesController.update);
+pharmaciesRouter.get('/medicines', pharmacieMedicinesController.index);
 
 pharmaciesRouter.get('/:id', pharmaciesController.show);
 pharmaciesRouter.delete('/:id', pharmaciesController.destroy);
