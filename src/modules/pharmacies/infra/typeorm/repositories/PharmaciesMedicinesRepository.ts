@@ -36,12 +36,6 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
   //   return pharmacie;
   // }
 
-  // public async findById(id: string): Promise<Pharmacie | undefined> {
-  //   const pharmacie = await this.ormRepository.findOne(id);
-
-  //   return pharmacie;
-  // }
-
   public async findByMedicine(
     medicine_id: string,
     pharmacie_id: string,

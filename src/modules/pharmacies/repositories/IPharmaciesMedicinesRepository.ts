@@ -7,7 +7,7 @@ import PharmaciesMedicines from '../infra/typeorm/entities/PharmaciesMedicines';
 
 export default interface IPharmaciesMedicinesRepository {
   create(data: ICreatePharmacieMedicineDTO): Promise<void>;
-  // findByCnpj(cnpj: string): Promise<Pharmacie | undefined>;
+
   findByMedicine(
     medicine_id: string,
     pharmacie_id: string,
