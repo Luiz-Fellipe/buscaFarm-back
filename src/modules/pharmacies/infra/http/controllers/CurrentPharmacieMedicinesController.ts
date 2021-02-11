@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import { classToClass } from 'class-transformer';
+import UpdatePharmacieMedicinesService from '@module/pharmacies/services/UpdatePharmacieMedicinesService';
 import PharmaciesMedicinesRepository from '../../typeorm/repositories/PharmaciesMedicinesRepository';
 
 export default class CurrentPharmacieMedicinesController {
@@ -39,5 +40,22 @@ export default class CurrentPharmacieMedicinesController {
     );
 
     return res.json(classToClass(pharmacieMedicine));
+  }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const { price, amount, medicine_id } = req.body;
+
+    const { pharmacieId } = req.user as any;
+
+    const updatePharmacie = container.resolve(UpdatePharmacieMedicinesService);
+
+    updatePharmacie.execute({
+      pharmacie_id: pharmacieId,
+      medicine_id,
+      price,
+      amount,
+    });
+
+    return res.status(204).send();
   }
 }

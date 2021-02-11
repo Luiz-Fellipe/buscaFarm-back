@@ -32,16 +32,14 @@ export default class MedicinesController {
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
-    const { id, name, amount, manufacturer, price } = req.body;
+    const { id, name, manufacturer } = req.body;
 
     const updateMedicine = container.resolve(UpdateMedicineService);
 
     updateMedicine.execute({
       id,
       name: name.toLowerCase(),
-      amount,
       manufacturer: manufacturer.toLowerCase(),
-      price,
     });
 
     return res.json({ ok: true });
