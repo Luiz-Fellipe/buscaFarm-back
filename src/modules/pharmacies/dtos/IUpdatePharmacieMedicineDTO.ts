@@ -1,7 +1,11 @@
 interface IMedicine {
   medicine_id: string;
-  price: string | number;
-  amount: string | number;
+  price: number;
+  amount: number;
+}
+
+export interface IUpdateMedicineDTO extends IMedicine {
+  pharmacie_id: string;
 }
 
 export default interface IUpdatePharmacieMedicineDTO {
