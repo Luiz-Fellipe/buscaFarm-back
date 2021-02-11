@@ -25,4 +25,19 @@ export default class CurrentPharmacieMedicinesController {
 
     return res.json(classToClass(pharmacieMedicines));
   }
+
+  public async show(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { pharmacieId } = req.user as any;
+    const pharmaciesMedicinesRepository = container.resolve(
+      PharmaciesMedicinesRepository,
+    );
+
+    const pharmacieMedicine = await pharmaciesMedicinesRepository.findByMedicine(
+      id,
+      pharmacieId,
+    );
+
+    return res.json(classToClass(pharmacieMedicine));
+  }
 }
