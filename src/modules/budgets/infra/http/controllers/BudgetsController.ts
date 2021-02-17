@@ -7,11 +7,18 @@ import BudgetsRepository from '../../typeorm/repositories/BudgetsRepository';
 
 export default class BudgetsController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const { pageLength, pageStart, date, user_id } = req.query as any;
+    const {
+      pageLength,
+      pageStart,
+      date,
+      user_id,
+      pharmacie_id,
+    } = req.query as any;
     const budgetsRepository = container.resolve(BudgetsRepository);
 
     const budgets = await budgetsRepository.findWithPagination({
       user_id,
+      pharmacie_id,
       pageLength,
       pageStart,
       date,
