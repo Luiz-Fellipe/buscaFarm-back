@@ -32,6 +32,7 @@ class BudgetsRepository implements IBudgetsRepository {
 
   public async findWithPagination({
     user_id,
+    pharmacie_id,
     pageStart,
     pageLength,
     date,
@@ -42,9 +43,27 @@ class BudgetsRepository implements IBudgetsRepository {
     const end = new Date(start);
     end.setDate(start.getDate() + 1);
 
+    if (pharmacie_id) {
+      const [result, total] = await this.ormRepository
+        .createQueryBuilder('budgets')
+        .innerJoinAndSelect('budgets.user', 'users')
+        .innerJoin('budgets.pharmacie', 'pharmacies')
+        .leftJoinAndSelect('budgets.budgets_medicines', 'budgets_medicines')
+        .leftJoinAndSelect('budgets_medicines.medicine', 'medicines')
+        .where(`pharmacies.id ='${pharmacie_id}'`)
+        .andWhere(
+          `budgets.created_at BETWEEN '${start.toISOString()}' AND '${end.toISOString()}' `,
+        )
+        .offset(pageStart)
+        .limit(pageLength)
+        .getManyAndCount();
+
+      return { data: result, count: total } || undefined;
+    }
+
     const [result, total] = await this.ormRepository
       .createQueryBuilder('budgets')
-      .innerJoinAndSelect('budgets.user', 'users')
+      .innerJoin('budgets.user', 'users')
       .innerJoinAndSelect('budgets.pharmacie', 'pharmacies')
       .leftJoinAndSelect('budgets.budgets_medicines', 'budgets_medicines')
       .leftJoinAndSelect('budgets_medicines.medicine', 'medicines')
