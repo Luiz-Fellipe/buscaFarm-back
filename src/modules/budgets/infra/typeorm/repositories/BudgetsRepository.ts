@@ -37,11 +37,19 @@ class BudgetsRepository implements IBudgetsRepository {
     pageLength,
     date,
   }: IFindBudgetDTO): Promise<ResponsePaginationProps | undefined> {
-    const start = new Date(date);
-    start.setHours(0, 0, 0, 0);
+    let start;
+    let end;
 
-    const end = new Date(start);
-    end.setDate(start.getDate() + 1);
+    if (date) {
+      start = new Date(date);
+      end = new Date(start);
+      start.setHours(0, 0, 0, 0);
+      end.setDate(start.getDate() + 1);
+    } else {
+      start = new Date('January 01, 2021 00:00:00');
+      end = new Date();
+      end.setDate(end.getDate() + 1);
+    }
 
     if (pharmacie_id) {
       const [result, total] = await this.ormRepository
@@ -52,7 +60,7 @@ class BudgetsRepository implements IBudgetsRepository {
         .leftJoinAndSelect('budgets_medicines.medicine', 'medicines')
         .where(`pharmacies.id ='${pharmacie_id}'`)
         .andWhere(
-          `budgets.created_at BETWEEN '${start.toISOString()}' AND '${end.toISOString()}' `,
+          `budgets.created_at BETWEEN '${start.toISOString()}' AND '${end.toISOString()}'`,
         )
         .offset(pageStart)
         .limit(pageLength)
