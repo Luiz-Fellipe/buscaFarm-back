@@ -26,6 +26,9 @@ class Medicine {
   @Column()
   manufacturer: string;
 
+  @Column()
+  register: string;
+
   @OneToMany(
     () => BudgetsMedicines,
     budgets_medicines => budgets_medicines.medicine,

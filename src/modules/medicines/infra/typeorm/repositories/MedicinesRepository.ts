@@ -46,14 +46,16 @@ class MedicinesRepository implements IMedicinesRepository {
     return orderList;
   }
 
-  public async findAllByName(
+  public async findAllByRegister(
     medicines: IFindMedicinesByName[],
   ): Promise<Medicine[]> {
-    const nameList = medicines.map(medicine => medicine.name);
+    const registerList = medicines.map(medicine => medicine.register);
 
     const orderList = await this.ormRepository
       .createQueryBuilder('medicines')
-      .where('medicines.name IN (:...names)', { names: nameList })
+      .where('medicines.register IN (:...registers)', {
+        registers: registerList,
+      })
       .getMany();
 
     // if (nameList.length !== orderList.length) {

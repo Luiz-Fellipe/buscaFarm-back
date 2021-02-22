@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import { classToClass } from 'class-transformer';
 import UpdatePharmacieMedicinesService from '@module/pharmacies/services/UpdatePharmacieMedicinesService';
+import DeletePharmacieMedicinesService from '@module/pharmacies/services/DeletePharmacieMedicinesService';
 import PharmaciesMedicinesRepository from '../../typeorm/repositories/PharmaciesMedicinesRepository';
 
 export default class CurrentPharmacieMedicinesController {
@@ -55,6 +56,18 @@ export default class CurrentPharmacieMedicinesController {
       price,
       amount,
     });
+
+    return res.status(204).send();
+  }
+
+  public async destroy(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const deletePharmacieMedicine = container.resolve(
+      DeletePharmacieMedicinesService,
+    );
+
+    await deletePharmacieMedicine.execute({ id });
 
     return res.status(204).send();
   }

@@ -1,5 +1,4 @@
 import IMedicinesRepository from '@module/medicines/repositories/IMedicinesRepository';
-import Pharmacie from '@module/pharmacies/infra/typeorm/entities/Pharmacie';
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import IImportPharmacieMedicineDTO from '../dtos/IImportPharmacieMedicineDTO';
@@ -27,17 +26,17 @@ class ImportPharmacieMedicineCsvService {
       throw new AppError('Pharmacie not found');
     }
 
-    const medicinesNames = medicines.map(medicine => {
-      return { name: medicine.name.toLowerCase() };
+    const medicinesRegisters = medicines.map(medicine => {
+      return { register: medicine.register.toLowerCase() };
     });
 
-    const medicinesData = await this.medicineRepository.findAllByName(
-      medicinesNames,
+    const medicinesData = await this.medicineRepository.findAllByRegister(
+      medicinesRegisters,
     );
 
     const medicinesFinal = medicinesData.map(async medicine => {
       const medicineFinal = medicines.find(
-        medicineFind => medicineFind.name === medicine.name,
+        medicineFind => medicineFind.register === medicine.register,
       );
 
       if (!medicineFinal) {

@@ -1,4 +1,4 @@
-import { getRepository, Repository, Like } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import IPharmaciesRepository from '@module/pharmacies/repositories/IPharmaciesRepository';
 import ICreatePharmacieDTO from '@module/pharmacies/dtos/ICreatePharmacieDTO';
@@ -6,7 +6,7 @@ import {
   PaginationProps,
   ResponsePaginationProps,
 } from '@shared/dtos/IPaginationProps';
-import IUpdatePharmacieMedicineDTO from '@module/pharmacies/dtos/IUpdatePharmacieMedicineDTO';
+// import IUpdatePharmacieMedicineDTO from '@module/pharmacies/dtos/IUpdatePharmacieMedicineDTO';
 import Pharmacie from '../entities/Pharmacie';
 
 interface IMedicine {
@@ -103,14 +103,14 @@ class PharmaciesRepository implements IPharmaciesRepository {
     return pharmacie;
   }
 
-  public async updateMedicines({
-    medicines,
-  }: IUpdatePharmacieMedicineDTO): Promise<Pharmacie> {
-    return this.ormRepository.save({
-      id: pharmacie.id,
-      pharmacies_medicines: medicines,
-    });
-  }
+  // public async updateMedicines({
+  //   medicines,
+  // }: IUpdatePharmacieMedicineDTO): Promise<Pharmacie> {
+  //   return this.ormRepository.save({
+  //     id: pharmacie.id,
+  //     pharmacies_medicines: medicines,
+  //   });
+  // }
 
   public async remove(pharmacie: Pharmacie): Promise<void> {
     await this.ormRepository.remove(pharmacie);
