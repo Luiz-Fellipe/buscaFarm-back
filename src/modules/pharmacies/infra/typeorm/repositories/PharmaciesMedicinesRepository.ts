@@ -52,6 +52,12 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
     return result;
   }
 
+  public async findById(id: string): Promise<PharmaciesMedicines | undefined> {
+    const result = await this.ormRepository.findOne(id);
+
+    return result;
+  }
+
   public async findWithPagination({
     pageStart,
     pageLength,
@@ -102,6 +108,10 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
     });
 
     await this.ormRepository.save(pharmacieMedicine);
+  }
+
+  public async remove(pharmacie: PharmaciesMedicines): Promise<void> {
+    await this.ormRepository.remove(pharmacie);
   }
 
   public async save(
