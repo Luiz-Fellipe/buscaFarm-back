@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import IUsersRepository from '@module/users/repositories/IUsersRepository';
+
 import { injectable, inject } from 'tsyringe';
 import IPharmaciesRepository from '../repositories/IPharmaciesRepository';
 
