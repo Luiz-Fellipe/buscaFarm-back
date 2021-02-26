@@ -46,15 +46,14 @@ class PharmaciesMedicinesRepository implements IPharmaciesMedicinesRepository {
     pageLength,
     search,
   }: PaginationProps): Promise<ResponsePaginationProps | undefined> {
-    console.log('veio aqui');
     const [result, total] = await this.ormRepository
       .createQueryBuilder('pharmacies_medicines')
       .innerJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
       .innerJoinAndSelect('pharmacies_medicines.pharmacie', 'pharmacies')
       .where(`medicines.name ILIKE '%${search}%'`)
       .orWhere(`pharmacies.company_name ILIKE '%${search}%'`)
-      .offset(pageStart)
-      .limit(pageLength)
+      .skip(pageStart)
+      .take(pageLength)
       .getManyAndCount();
 
     return { data: result, count: total } || undefined;
