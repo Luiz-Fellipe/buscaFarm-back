@@ -13,6 +13,7 @@ export default class BudgetsController {
       date,
       user_id,
       pharmacie_id,
+      search,
     } = req.query as any;
     const budgetsRepository = container.resolve(BudgetsRepository);
 
@@ -22,6 +23,7 @@ export default class BudgetsController {
       pageLength,
       pageStart,
       date,
+      search,
     });
 
     return res.json(classToClass(budgets));

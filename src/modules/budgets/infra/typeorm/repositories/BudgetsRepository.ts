@@ -35,6 +35,7 @@ class BudgetsRepository implements IBudgetsRepository {
     pharmacie_id,
     pageStart,
     pageLength,
+    search,
     date,
   }: IFindBudgetDTO): Promise<ResponsePaginationProps | undefined> {
     let start;
@@ -52,6 +53,25 @@ class BudgetsRepository implements IBudgetsRepository {
     }
 
     if (pharmacie_id) {
+      if (search) {
+        const [result, total] = await this.ormRepository
+          .createQueryBuilder('budgets')
+          .innerJoinAndSelect('budgets.user', 'users')
+          .innerJoin('budgets.pharmacie', 'pharmacies')
+          .leftJoinAndSelect('budgets.budgets_medicines', 'budgets_medicines')
+          .leftJoinAndSelect('budgets_medicines.medicine', 'medicines')
+          .where(`pharmacies.id ='${pharmacie_id}'`)
+          .andWhere(`users.name ILIKE '%${search}%'`)
+          .andWhere(
+            `budgets.created_at BETWEEN '${start.toISOString()}' AND '${end.toISOString()}'`,
+          )
+          .skip(pageStart)
+          .take(pageLength)
+          .getManyAndCount();
+
+        return { data: result, count: total } || undefined;
+      }
+
       const [result, total] = await this.ormRepository
         .createQueryBuilder('budgets')
         .innerJoinAndSelect('budgets.user', 'users')
@@ -64,6 +84,25 @@ class BudgetsRepository implements IBudgetsRepository {
         )
         .skip(pageStart)
         .take(pageLength)
+        .getManyAndCount();
+
+      return { data: result, count: total } || undefined;
+    }
+
+    if (search) {
+      const [result, total] = await this.ormRepository
+        .createQueryBuilder('budgets')
+        .innerJoin('budgets.user', 'users')
+        .innerJoinAndSelect('budgets.pharmacie', 'pharmacies')
+        .leftJoinAndSelect('budgets.budgets_medicines', 'budgets_medicines')
+        .leftJoinAndSelect('budgets_medicines.medicine', 'medicines')
+        .where(`budgets.user.id ='${user_id}'`)
+        .andWhere(`users.name ILIKE '%${search}%'`)
+        .andWhere(
+          `budgets.created_at BETWEEN '${start.toISOString()}' AND '${end.toISOString()}' `,
+        )
+        .offset(pageStart)
+        .limit(pageLength)
         .getManyAndCount();
 
       return { data: result, count: total } || undefined;
