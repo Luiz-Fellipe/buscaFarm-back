@@ -6,7 +6,7 @@ import {
   ResponsePaginationProps,
 } from '@shared/dtos/IPaginationProps';
 import IMedicinesRepository, {
-  IFindMedicinesByName,
+  IFindMedicinesByRegister,
 } from '@module/medicines/repositories/IMedicinesRepository';
 import Medicine from '../entities/Medicine';
 
@@ -47,7 +47,7 @@ class MedicinesRepository implements IMedicinesRepository {
   }
 
   public async findAllByRegister(
-    medicines: IFindMedicinesByName[],
+    medicines: IFindMedicinesByRegister[],
   ): Promise<Medicine[]> {
     const registerList = medicines.map(medicine => medicine.register);
 
@@ -78,8 +78,8 @@ class MedicinesRepository implements IMedicinesRepository {
       )
       .leftJoinAndSelect('pharmacies_medicines.pharmacie', 'pharmacies')
       .where(`name ILIKE '%${search}%'`)
-      .offset(pageStart)
-      .limit(pageLength)
+      .skip(pageStart)
+      .take(pageLength)
       .getManyAndCount();
     // const [result, total] = await this.ormRepository.findAndCount({
     //   where: `name ILIKE '%${search}%'`,

@@ -54,8 +54,8 @@ class PharmaciesRepository implements IPharmaciesRepository {
       )
       .leftJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
       .where(`company_name ILIKE '%${search}%'`)
-      .offset(pageStart)
-      .limit(pageLength)
+      .skip(pageStart)
+      .take(pageLength)
       .getManyAndCount();
 
     // const [result, total] = await this.ormRepository.findAndCount({
