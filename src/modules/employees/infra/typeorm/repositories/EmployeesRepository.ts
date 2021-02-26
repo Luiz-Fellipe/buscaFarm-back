@@ -51,8 +51,8 @@ class EmployeesRepository implements IEmployeesRepository {
       .where(
         `pharmacie.id = '${pharmacieId}' AND user.name ILIKE '%${search}%'`,
       )
-      .offset(pageStart)
-      .limit(pageLength)
+      .skip(pageStart)
+      .take(pageLength)
       .getManyAndCount();
 
     return { data: result, count: total } || undefined;

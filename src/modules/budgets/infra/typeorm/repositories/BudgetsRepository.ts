@@ -62,8 +62,8 @@ class BudgetsRepository implements IBudgetsRepository {
         .andWhere(
           `budgets.created_at BETWEEN '${start.toISOString()}' AND '${end.toISOString()}'`,
         )
-        .offset(pageStart)
-        .limit(pageLength)
+        .skip(pageStart)
+        .take(pageLength)
         .getManyAndCount();
 
       return { data: result, count: total } || undefined;
