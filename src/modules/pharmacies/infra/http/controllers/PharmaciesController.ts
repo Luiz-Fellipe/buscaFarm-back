@@ -26,8 +26,9 @@ export default class PharmaciesController {
     const pharmaciesRepository = container.resolve(PharmaciesRepository);
 
     const pharmacie = await pharmaciesRepository.findById(id);
+    console.log('aquiiiiiiiiiiiiiii');
 
-    return res.json({ pharmacie });
+    return res.json(classToClass(pharmacie));
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
