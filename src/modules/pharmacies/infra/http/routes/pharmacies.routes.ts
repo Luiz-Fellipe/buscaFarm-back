@@ -15,6 +15,8 @@ const pharmaciesUploadCsvMedicineController = new PharmaciesUploadCsvMedicineCon
 const pharmacieMedicinesController = new CurrentPharmacieMedicinesController();
 
 const upload = multer(uploadConfig.multer);
+
+pharmaciesRouter.get('/:id', pharmaciesController.show);
 pharmaciesRouter.use(ensureEmployeeAuthenticated);
 
 pharmaciesRouter.post('/create', pharmaciesController.create);
@@ -28,7 +30,6 @@ pharmaciesRouter.get('/medicines/:id', pharmacieMedicinesController.show);
 pharmaciesRouter.put('/medicines/edit', pharmacieMedicinesController.update);
 pharmaciesRouter.delete('/medicines/:id', pharmacieMedicinesController.destroy);
 
-pharmaciesRouter.get('/:id', pharmaciesController.show);
 pharmaciesRouter.delete('/:id', pharmaciesController.destroy);
 
 pharmaciesRouter.patch(
