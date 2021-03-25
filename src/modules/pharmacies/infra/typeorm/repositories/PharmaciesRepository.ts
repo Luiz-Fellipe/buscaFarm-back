@@ -43,7 +43,7 @@ class PharmaciesRepository implements IPharmaciesRepository {
         'pharmacies_medicines',
       )
       .leftJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
-      .where(`id=${id}`)
+      .where(`pharmacies.id ='${id}'`)
       .getOne();
 
     return pharmacie;
