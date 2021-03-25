@@ -36,7 +36,15 @@ class PharmaciesRepository implements IPharmaciesRepository {
   }
 
   public async findById(id: string): Promise<Pharmacie | undefined> {
-    const pharmacie = await this.ormRepository.findOne(id);
+    const pharmacie = await this.ormRepository
+      .createQueryBuilder('pharmacies')
+      .leftJoinAndSelect(
+        'pharmacies.pharmacies_medicines',
+        'pharmacies_medicines',
+      )
+      .leftJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
+      .where(`id=${id}`)
+      .getOne();
 
     return pharmacie;
   }
