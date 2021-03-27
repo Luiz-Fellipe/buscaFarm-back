@@ -35,7 +35,9 @@ class PharmaciesRepository implements IPharmaciesRepository {
     return pharmacie;
   }
 
-  public async findById(id: string): Promise<Pharmacie | undefined> {
+  public async findByIdWithRelations(
+    id: string,
+  ): Promise<Pharmacie | undefined> {
     const pharmacie = await this.ormRepository
       .createQueryBuilder('pharmacies')
       .leftJoinAndSelect(
@@ -45,6 +47,12 @@ class PharmaciesRepository implements IPharmaciesRepository {
       .leftJoinAndSelect('pharmacies_medicines.medicine', 'medicines')
       .where(`pharmacies.id ='${id}'`)
       .getOne();
+
+    return pharmacie;
+  }
+
+  public async findById(id: string): Promise<Pharmacie | undefined> {
+    const pharmacie = await this.ormRepository.findOne(id);
 
     return pharmacie;
   }

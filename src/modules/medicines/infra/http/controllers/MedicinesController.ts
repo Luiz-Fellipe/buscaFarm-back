@@ -10,7 +10,6 @@ import MedicinesRepository from '../../typeorm/repositories/MedicinesRepository'
 export default class MedicinesController {
   public async index(req: Request, res: Response): Promise<Response> {
     const { pageLength, pageStart, search } = req.query as any;
-
     const medicinesRepository = container.resolve(MedicinesRepository);
 
     const medicines = await medicinesRepository.findWithPagination({

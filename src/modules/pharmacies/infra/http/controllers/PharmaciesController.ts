@@ -25,7 +25,7 @@ export default class PharmaciesController {
     const { id } = req.params;
     const pharmaciesRepository = container.resolve(PharmaciesRepository);
 
-    const pharmacie = await pharmaciesRepository.findById(id);
+    const pharmacie = await pharmaciesRepository.findByIdWithRelations(id);
 
     return res.json(classToClass(pharmacie));
   }

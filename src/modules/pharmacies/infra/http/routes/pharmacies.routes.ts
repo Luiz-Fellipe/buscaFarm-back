@@ -25,7 +25,7 @@ pharmaciesRouter.get('/', pharmaciesController.index);
 pharmaciesRouter.put('/edit', pharmaciesController.update);
 
 // pharmacie Medicines
-pharmaciesRouter.get('/medicines', pharmacieMedicinesController.index);
+pharmaciesRouter.get('/medicines/get', pharmacieMedicinesController.index);
 pharmaciesRouter.get('/medicines/:id', pharmacieMedicinesController.show);
 pharmaciesRouter.put('/medicines/edit', pharmacieMedicinesController.update);
 pharmaciesRouter.delete('/medicines/:id', pharmacieMedicinesController.destroy);
