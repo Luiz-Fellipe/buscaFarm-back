@@ -8,9 +8,7 @@ import PharmaciesMedicinesRepository from '../../typeorm/repositories/Pharmacies
 
 export default class CurrentPharmacieMedicinesController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const { pageLength, pageStart, search } = req.query as any;
-
-    const { pharmacieId } = req.user as any;
+    const { pageLength, pageStart, search, pharmacieId } = req.query as any;
 
     const pharmaciesMedicinesRepository = container.resolve(
       PharmaciesMedicinesRepository,
