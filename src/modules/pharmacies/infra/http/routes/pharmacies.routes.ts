@@ -17,6 +17,7 @@ const pharmacieMedicinesController = new CurrentPharmacieMedicinesController();
 const upload = multer(uploadConfig.multer);
 
 pharmaciesRouter.get('/:id', pharmaciesController.show);
+pharmaciesRouter.get('/medicines/get', pharmacieMedicinesController.index);
 pharmaciesRouter.use(ensureEmployeeAuthenticated);
 
 pharmaciesRouter.post('/create', pharmaciesController.create);
@@ -25,7 +26,6 @@ pharmaciesRouter.get('/', pharmaciesController.index);
 pharmaciesRouter.put('/edit', pharmaciesController.update);
 
 // pharmacie Medicines
-pharmaciesRouter.get('/medicines/get', pharmacieMedicinesController.index);
 pharmaciesRouter.get('/medicines/:id', pharmacieMedicinesController.show);
 pharmaciesRouter.put('/medicines/edit', pharmacieMedicinesController.update);
 pharmaciesRouter.delete('/medicines/:id', pharmacieMedicinesController.destroy);
