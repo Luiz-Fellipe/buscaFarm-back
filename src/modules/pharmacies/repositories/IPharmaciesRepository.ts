@@ -10,6 +10,7 @@ export default interface IPharmaciesRepository {
   create(data: ICreatePharmacieDTO): Promise<Pharmacie>;
   // updateMedicines(data: IUpdatePharmacieMedicineDTO): Promise<Pharmacie>;
   findByCnpj(cnpj: string): Promise<Pharmacie | undefined>;
+  findByIdWithRelations(id: string): Promise<Pharmacie | undefined>;
   findById(id: string): Promise<Pharmacie | undefined>;
   findWithPagination({
     pageStart,
