@@ -25,7 +25,16 @@ class BudgetsRepository implements IBudgetsRepository {
   }
 
   public async findById(id: string): Promise<Budget | undefined> {
-    const budget = await this.ormRepository.findOne(id);
+    // const budget = await this.ormRepository.findOne(id);
+
+    const budget = await this.ormRepository
+      .createQueryBuilder('budgets')
+      .innerJoinAndSelect('budgets.user', 'users')
+      .innerJoin('budgets.pharmacie', 'pharmacies')
+      .leftJoinAndSelect('budgets.budgets_medicines', 'budgets_medicines')
+      .leftJoinAndSelect('budgets_medicines.medicine', 'medicines')
+      .where(`budgets.id ='${id}'`)
+      .getOne();
 
     return budget;
   }
