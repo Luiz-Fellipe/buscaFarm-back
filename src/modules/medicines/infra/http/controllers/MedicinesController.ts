@@ -31,7 +31,7 @@ export default class MedicinesController {
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
-    const { id, name, manufacturer } = req.body;
+    const { id, name, manufacturer, register } = req.body;
 
     const updateMedicine = container.resolve(UpdateMedicineService);
 
@@ -39,6 +39,7 @@ export default class MedicinesController {
       id,
       name: name.toLowerCase(),
       manufacturer: manufacturer.toLowerCase(),
+      register,
     });
 
     return res.json({ ok: true });
@@ -55,15 +56,14 @@ export default class MedicinesController {
   }
 
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, amount, manufacturer, price } = req.body;
+    const { name, manufacturer, register } = req.body;
 
     const createMedicine = container.resolve(CreateMedicineService);
 
     const medicine = await createMedicine.execute({
       name: name.toLowerCase(),
-      amount,
+      register,
       manufacturer: manufacturer.toLowerCase(),
-      price,
     });
 
     return res.json(medicine);

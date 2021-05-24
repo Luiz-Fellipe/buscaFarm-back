@@ -93,10 +93,12 @@ class MedicinesRepository implements IMedicinesRepository {
   public async create({
     name,
     manufacturer,
+    register,
   }: ICreateMedicineDTO): Promise<Medicine> {
     const medicine = this.ormRepository.create({
       manufacturer,
       name,
+      register,
     });
 
     await this.ormRepository.save(medicine);
