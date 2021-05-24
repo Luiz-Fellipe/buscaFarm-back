@@ -17,6 +17,7 @@ class UpdateMedicineService {
     name,
     id,
     manufacturer,
+    register,
   }: IUpdateMedicineDTO): Promise<Medicine> {
     const medicine = await this.medicineRepository.findById(id);
 
@@ -26,6 +27,7 @@ class UpdateMedicineService {
 
     medicine.name = name;
     medicine.manufacturer = manufacturer;
+    medicine.register = register;
 
     return this.medicineRepository.save(medicine);
   }

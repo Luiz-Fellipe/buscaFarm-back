@@ -16,9 +16,8 @@ class CreateMedicineService {
 
   public async execute({
     name,
-    amount,
+    register,
     manufacturer,
-    price,
   }: ICreateMedicineDTO): Promise<Medicine> {
     const existMedicine = await this.medicinesRepository.findByName(name);
 
@@ -28,9 +27,8 @@ class CreateMedicineService {
 
     const newMedicine = this.medicinesRepository.create({
       name,
-      amount,
+      register,
       manufacturer,
-      price,
     });
 
     return newMedicine;
