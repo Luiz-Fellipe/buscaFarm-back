@@ -38,7 +38,7 @@ class CreateBudgetService {
         throw new AppError('Medicine not found');
       }
 
-      value += medicineFinal.price;
+      value += medicineFinal.price * medicineFinal.amount;
 
       return {
         medicine_id: medicineFinal.medicine_id,
